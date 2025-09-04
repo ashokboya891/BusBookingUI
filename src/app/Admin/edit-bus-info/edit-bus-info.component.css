@@ -1,0 +1,13 @@
+.dropzone.dragging {
+  background-color: #e9f5ff;
+  border-color: #0d6efd;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}

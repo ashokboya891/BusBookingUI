@@ -1,0 +1,127 @@
+<div class="container">
+  <div class="row">
+    <!-- Left Panel: Sort / Categories / Types -->
+    <section class="col-3">
+      <!-- Sort -->
+      <h5 class="text-primary ms-3">Sort by</h5>
+      <select class="form-select mb-4" (change)="onSortSelected($event)">
+  <option *ngFor="let sort of sortOptions; let i = index"
+          [value]="i"
+          [selected]="busParams.sortBy === sort.sortBy && busParams.sortDirection === sort.sortDirection">
+    {{ sort.name }}
+  </option>
+</select>
+
+      <!-- <select class="form-select mb-4" (change)="onSortSelected($event)">
+        <option *ngFor="let sort of sortOptions"
+                [selected]="busParams.sortBy === sort.value"
+                [value]="sort.value">
+          {{sort.name}}
+        </option>
+      </select> -->
+
+      <!-- Categories -->
+      <h5 class="text-primary ms-3">Bus Categories</h5>
+      <select class="form-select mb-4" (change)="onCategorySelected($event)">
+  <option [value]="''">All Categories</option>
+  <option *ngFor="let cat of busCategories"
+          [value]="cat.id"
+          [selected]="busParams.busCategoryId === cat.id">
+    {{cat.name}}
+  </option>
+</select>
+      <!-- <ul class="list-group my-3">
+        <li class="list-group-item"
+            *ngFor="let cat of busCategories"
+            [class.active]="cat.id === busParams.busCategoryId"
+            (click)="onCategorySelected(cat.id)">
+          {{cat.name}}
+        </li>
+      </ul> -->
+
+      <!-- Types -->
+       <h5 class="text-primary ms-3">Bus Types</h5>
+<select class="form-select mb-4" (change)="onTypeSelected($event)">
+  <option [value]="''">All Types</option>
+  <option *ngFor="let type of busTypes"
+          [value]="type.id"
+          [selected]="busParams.busTypeId === type.id">
+    {{type.name}}
+  </option>
+</select>
+
+      <!-- <h5 class="text-primary ms-3">Bus Types</h5>
+      <ul class="list-group my-3">
+        <li class="list-group-item"
+            *ngFor="let type of busTypes"
+            [class.active]="type.id === busParams.busTypeId"
+            (click)="onTypeSelected(type.id)">
+          {{type.name}}
+        </li>
+      </ul> -->
+    </section>
+
+    <!-- Center Panel: Bus Cards -->
+     
+    <section class="col-6">
+        <!-- Paging Header -->
+  <app-paging-header
+    [totalCount]="totalCount"
+    [pageNumber]="busParams.page"
+    [pageSize]="busParams.pageSize">
+  </app-paging-header>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mb-4">
+    <div class="col" *ngFor="let bus of buses">
+      <div class="card h-100 shadow-sm">
+        <img *ngIf="bus.images?.length"
+     [src]="bus.images[0].url"
+     class="card-img-top"
+     alt="bus">
+        <!-- <img *ngIf="bus.images?.length"
+             [src]="bus.images[0].imageUrl"
+             class="card-img-top"
+             alt="bus"> -->
+        <div class="card-body" routerLink="/selection/{{bus.id}}" style="cursor: pointer;">
+          <h6 class="card-title">{{bus.title}}</h6>
+          <p class="card-text">{{bus.description}}</p>
+          <p class="text-muted">{{bus.fromPlace}} → {{bus.toPlace}}</p>
+          <p class="fw-bold">₹{{bus.price}}</p>
+          <p>Seats Available: {{bus.availableSeats}}</p>
+          <small class="text-muted">{{bus.travelDate | date:'medium'}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+      <!-- Pager -->
+      <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
+        <app-pager
+          [totalCount]="totalCount"
+          [pageSize]="busParams.pageSize"
+          [pageNumber]="busParams.page"
+          (pageChanged)="onPageChanged($event)">
+        </app-pager>
+      </div>
+    </section>
+
+    <!-- Right Panel: Filters -->
+    <section class="col-3">
+      <h5 class="text-primary ms-3">Filters</h5>
+
+      <!-- From / To Place -->
+      <input type="text" class="form-control my-2" [(ngModel)]="fromPlace" placeholder="From Place" />
+      <input type="text" class="form-control my-2" [(ngModel)]="toPlace" placeholder="To Place" />
+
+      <!-- Date Filters -->
+      <label class="form-label mt-2">From Date</label>
+      <input type="date" class="form-control my-2" [(ngModel)]="fromDate" />
+      <label class="form-label mt-2">To Date</label>
+      <input type="date" class="form-control my-2" [(ngModel)]="toDate" />
+
+      <!-- Buttons -->
+      <div class="d-grid gap-2 my-2">
+        <button class="btn btn-primary" (click)="onSearch()">Search</button>
+        <button class="btn btn-outline-success" (click)="onReset()">Reset</button>
+      </div>
+    </section>
+  </div>
+</div>

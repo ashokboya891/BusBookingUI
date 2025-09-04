@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+.group:hover .group-hover\:block {
+    display: block;
+  }
+  
+  .p-toast .p-toast-message.p-toast-message-success {
+  background: #28a745; /* green */
+  color: #fff;
+}
+
+.p-toast .p-toast-message.p-toast-message-error {
+  background: #dc3545; /* red */
+  color: #fff;
+}
+
+.p-toast .p-toast-message.p-toast-message-info {
+  background: #17a2b8; /* blue */
+  color: #fff;
+}
+
+.p-toast .p-toast-message.p-toast-message-warn {
+  background: #ffc107; /* yellow */
+  color: #000;
+}

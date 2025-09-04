@@ -1,0 +1,58 @@
+<div class="d-flex justify-content-center mt-5">
+  <div class="col-4">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="text-center mb-4">
+        <h1 class="mb-3">Sign-up</h1>
+      </div>
+
+     <!-- Top-level fields -->
+<app-test-inputs 
+  [formControl]="personName" 
+  [label]="'Person Name...'">
+</app-test-inputs>
+
+<app-test-inputs 
+  [formControl]="email" 
+  [label]="'Email...'">
+</app-test-inputs>
+
+<app-test-inputs 
+  [label]="'Phone'" 
+  [type]="'text'" 
+  [formControl]="phone" 
+  [patternErrorMessage]="'Phone number must be exactly 10 digits'">
+</app-test-inputs>
+
+
+<!-- Password group -->
+<div [formGroup]="passwordGroup">
+  <app-test-inputs 
+    [formControl]="password" 
+    type="password" 
+    [label]="'Password...'">
+  </app-test-inputs>
+
+  <app-test-inputs 
+    [formControl]="confirmPassword" 
+    type="password" 
+    [label]="'Confirm Password...'">
+  </app-test-inputs>
+
+  <div class="text-danger mt-1" *ngIf="passwordGroup?.errors?.['passwordMismatch']">
+    Passwords do not match
+  </div>
+</div>
+
+
+      <ul class="text-danger list-unstyled" *ngIf="errors">
+        <li *ngFor="let error of errors">{{ error }}</li>
+      </ul>
+
+      <div class="d-grid">
+        <button [disabled]="registerForm.invalid" class="btn btn-lg btn-primary mt-3" type="submit">
+          Sign-Up
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

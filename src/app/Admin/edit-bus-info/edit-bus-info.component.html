@@ -1,0 +1,196 @@
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between">
+      <h4>Edit Event</h4>
+      <button class="btn btn-sm btn-secondary" (click)="onClose()">×</button>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="busForm" (ngSubmit)="onUpdate()">
+        <div class="row">
+          <!-- Left -->
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Title</label>
+              <input type="text" class="form-control" formControlName="title" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" rows="3" formControlName="description"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">From Place</label>
+              <input type="text" class="form-control" formControlName="fromPlace" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">To Place</label>
+              <input type="text" class="form-control" formControlName="toPlace" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Travel Date</label>
+              <input type="date" class="form-control" formControlName="travelDate" />
+            </div>
+          </div>
+
+          <!-- Right -->
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Total Seats</label>
+              <input type="number" class="form-control" formControlName="totalSeats" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Available Seats</label>
+              <input type="number" class="form-control" formControlName="availableSeats" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Price</label>
+              <input type="number" class="form-control" formControlName="price" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              <input type="text" class="form-control" formControlName="status" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Organizer</label>
+              <input type="text" class="form-control" formControlName="organizer" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Contact Info</label>
+              <input type="text" class="form-control" formControlName="contactInfo" />
+            </div>
+          </div>
+          <div class="mb-3">
+  <label class="form-label">Bus Type</label>
+  <select class="form-select" formControlName="busTypeId">
+    <option *ngFor="let type of busTypes" [value]="type.id">
+      {{ type.name }}
+    </option>
+  </select>
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Bus Category</label>
+  <select class="form-select" formControlName="busCategoryId">
+    <option *ngFor="let category of busCategories" [value]="category.id">
+      {{ category.name }}
+    </option>
+  </select>
+</div>
+
+        </div>
+
+        <!-- Existing Images -->
+         <div class="mb-3" *ngIf="existingImages.length > 0">
+  <label class="form-label">Existing Images</label>
+  <div class="d-flex flex-wrap gap-2">
+    <div *ngFor="let img of existingImages; let i = index" 
+         class="border p-1 rounded position-relative">
+      
+      <!-- image preview -->
+      <img [src]="img.imageUrl" class="img-thumbnail" style="max-height:120px; max-width:120px;" />
+
+      <!-- delete button -->
+      <button type="button" 
+              class="btn btn-sm position-absolute top-0 end-0"
+              [ngClass]="img.isPrimary? 'btn-secondary' : 'btn-danger'"
+              [disabled]="img.isPrimary"
+              (click)="!img.isPrimary && removeExistingImage(i, img.id)"
+              [title]="img.isPrimary ? 'Main photo cannot be deleted' : 'Delete photo'">
+        ×
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="mb-3" *ngIf="existingImages.length > 0">
+  <label class="form-label">Existing Images</label>
+  <div class="d-flex flex-wrap gap-2">
+    <div *ngFor="let img of existingImages; let i = index" class="border p-1 rounded position-relative">
+      <img [src]="img.imageUrl" class="img-thumbnail" style="max-height:120px; max-width:120px;" />
+      <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0"
+              (click)="removeExistingImage(i, img.id)">×</button>
+    </div>
+  </div>
+</div> -->
+
+
+
+        <!-- Upload new -->
+<hr />
+<h5 class="text-info">Upload Product Images</h5>
+
+<!-- Drag & Drop Zone -->
+<div
+  class="dropzone border border-primary rounded p-4 text-center mb-3"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+  [class.bg-light]="isDragging"
+>
+  <p>Drag and drop images here or 
+    <label for="bulkFileInput" class="text-primary" style="cursor:pointer">browse</label>
+  </p>
+  <input id="bulkFileInput" type="file" multiple hidden (change)="onBulkFilesSelected($event)" />
+</div>
+
+<!-- File List Preview -->
+<div *ngIf="pendingUploads.length > 0">
+  <ul class="list-group mb-2">
+    <li *ngFor="let file of pendingUploads; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+      {{ file.name }}
+      <button class="btn btn-sm btn-outline-danger" (click)="removeFile(i)">🗑️</button>
+    </li>
+  </ul>
+
+  <!-- Upload Controls -->
+  <div class="mb-3 d-flex gap-2">
+    <button class="btn btn-success" (click)="uploadAll()">Upload All</button>
+    <button class="btn btn-secondary" (click)="clearAll()">Cancel</button>
+  </div>
+</div>
+
+<!-- Upload Progress -->
+<div *ngFor="let upload of uploadProgress" class="mb-2">
+  <div class="d-flex justify-content-between">
+    <small>{{ upload.file.name }}</small>
+    <small *ngIf="upload.progress < 100">{{ upload.progress }}%</small>
+    <small *ngIf="upload.progress === 100" class="text-success">Uploaded ✅</small>
+  </div>
+  <div class="progress">
+    <div
+      class="progress-bar bg-info"
+      role="progressbar"
+      [style.width.%]="upload.progress"
+      [attr.aria-valuenow]="upload.progress"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    ></div>
+  </div>
+</div>
+
+
+        <!-- <div class="mb-3">
+          <label class="form-label">Upload New Images</label>
+          <input type="file" class="form-control" (change)="onFileSelected($event)" multiple />
+        </div>
+
+        <div class="d-flex flex-wrap gap-2" *ngIf="previewUrls.length > 0">
+          <div *ngFor="let url of previewUrls; let i = index" class="border p-1 rounded position-relative">
+            <img [src]="url" class="img-thumbnail" style="max-height:120px; max-width:120px;" />
+            <button type="button" class="btn btn-sm btn-warning position-absolute top-0 end-0"
+                    (click)="removeNewImage(i)">×</button>
+          </div>
+        </div> -->
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between mt-4">
+          <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+          <div>
+            <button type="button" class="btn btn-secondary me-2" (click)="onClose()">Close</button>
+            <button type="submit" class="btn btn-primary" [disabled]="busForm.invalid">Update</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

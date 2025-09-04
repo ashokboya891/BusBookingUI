@@ -1,0 +1,26 @@
+<div class="bus-layout">
+  <h2>Select Your Seat</h2>
+
+  <div class="seats-container">
+    <div class="seat" *ngFor="let seat of SeatInfo">
+      <input 
+        type="checkbox" 
+        [id]="'seat-' + seat.seatNumber"
+        [value]="seat.seatNumber"
+        [disabled]="seat.isBooked"
+        (change)="toggleSeat(seat.seatNumber, $event)"
+      />
+      <label 
+        [for]="'seat-' + seat.seatNumber"
+        [ngClass]="{ 'booked': seat.isBooked, 'available': !seat.isBooked }"
+      >
+        {{ seat.seatNumber }}
+      </label>
+    </div>
+  </div>
+
+  <div class="selected-seats">
+    <h3>Your Selection:</h3>
+    <span *ngFor="let s of selectedSeats">Seat {{ s }} &nbsp;</span>
+  </div>
+</div>
