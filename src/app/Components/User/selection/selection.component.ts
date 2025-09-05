@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SeatInfo } from 'src/app/Models/SeatInfo';
+import { EventSeatMap, SeatDto, ImageDto } from 'src/app/Models/SeatInfo';
 import { EventService } from 'src/app/Services/event-service.service';
 
 @Component({
@@ -9,52 +9,51 @@ import { EventService } from 'src/app/Services/event-service.service';
   styleUrls: ['./selection.component.css']
 })
 export class SelectionComponent implements OnInit {
-  SeatInfo:SeatInfo[]=[];
-  eventId:number=0;
-  selectedSeats: number[] = [];
+  eventId: number = 0;
+  eventData!: EventSeatMap;
 
-  constructor(private route:ActivatedRoute,private eventServcie:EventService
-  ) { }
+  seatRows: (SeatDto | null)[][] = [];  // now maps 2D grid
+  selectedSeats: SeatDto[] = [];
 
-  
+  constructor(
+    private route: ActivatedRoute,
+    private eventService: EventService
+  ) {}
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
         this.eventId = +id;
-        this.loadbusinfo();
+        this.loadEventData();
       }
     });
   }
-  loadbusinfo()
-  {
-        this.eventServcie.getBusDataByEventId(this.eventId).subscribe({
-      next:(data) => {
-        this.SeatInfo = data;
-        console.log('Loaded bus data:', data);
+
+  loadEventData() {
+    this.eventService.getBusDataByEventId(this.eventId).subscribe({
+      next: (data: EventSeatMap) => {
+        this.eventData = data;
+        this.seatRows = this.eventData.seatLayout; // map API seat layout
+        console.log("Loaded bus layout:", this.eventData);
       },
-      error: err => console.error('Load failed:', err)
+      error: (err) => console.error("Load bus layout failed:", err)
     });
   }
-  toggleSeat(seatNumber: number, event: any) {
-  if (event.target.checked) {
-    this.selectedSeats.push(seatNumber);
-  } else {
-    this.selectedSeats = this.selectedSeats.filter(s => s !== seatNumber);
-  }
-}
-// Divide seats into rows
-getRows() {
-  return Array.from({ length: 10 }); // 10 rows → 40 seats
-}
 
-getSeatsForRow(rowIndex: number, side: 'left' | 'right') {
-  if (side === 'left') {
-    return this.SeatInfo.slice(rowIndex * 4, rowIndex * 4 + 2);
-  } else {
-    return this.SeatInfo.slice(rowIndex * 4 + 2, rowIndex * 4 + 4);
-  }
-}
+  toggleSeat(seat: SeatDto) {
+    if (seat.isBooked) return;
 
+    const index = this.selectedSeats.findIndex(s => s.seatNumber === seat.seatNumber);
+    if (index >= 0) {
+      this.selectedSeats.splice(index, 1);
+    } else {
+      this.selectedSeats.push(seat);
+    }
+  }
+
+  isSelected(seat: SeatDto): boolean {
+    return this.selectedSeats.some(s => s.seatNumber === seat.seatNumber);
+  }
 
 }

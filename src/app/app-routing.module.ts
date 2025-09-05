@@ -14,31 +14,59 @@ import { AllEventsComponent } from './Admin/all-events/all-events.component';
 import { AddBusEventComponent } from './Admin/add-bus-event/add-bus-event.component';
 import { SelectionComponent } from './Components/User/selection/selection.component';
 import { EditBusInfoComponent } from './Admin/edit-bus-info/edit-bus-info.component';
+import { AuthGuard } from './_guards/Auth.guard';
 
 const routes: Routes = [
-  {path:'home',component:HomeComponent},
-  {path:'login',component:LoginComponent},
-  {path:'register',component:RegisterComponent},
-  {path:'',redirectTo:'home',pathMatch:'full'},
-  {path:'editbus/:id',component:EditBusInfoComponent},
-  {path:'selection/:id',component:SelectionComponent},
-  {path:'upcomming',component:UpRidesComponent},
+  // Public
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+
+  // Default redirect
+  { path: '', redirectTo: 'home', pathMatch: 'full' }, // ✅ Default to home
+
+  // Protected (only if logged in)
   {
-    path: "", canActivate: [], data: { expectedRoles:["Moderator"] }, children: [{
-    path:'comrides',component:CompletedRidesComponent
-  }]
+    path: '',
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'selection/:id', component: SelectionComponent },
+      { path: 'upcomming', component: UpRidesComponent },
+      { path: 'mybookings', component: MyBookingsComponent },
+
+      // Moderator
+      {
+        path: 'moderator',
+        canActivate: [moderatorGuard],
+        data: { expectedRoles: ['Moderator'] },
+        children: [
+          { path: 'comrides', component: CompletedRidesComponent }
+        ]
+      },
+
+      // Admin
+      {
+        path: 'admin',
+        canActivate: [adminGuard],
+        data: { expectedRoles: ['Admin'] },
+        children: [
+          { path: 'all-events', component: AllEventsComponent },
+          { path: 'create-event', component: AddBusEventComponent },
+          { path: 'editbus/:id', component: EditBusInfoComponent },
+          { path: 'test', component: TestComponent },
+          { path: 'Busroutes', component: RoutesComponent }
+        ]
+      },
+      { path: '**', redirectTo: 'home' } // ✅ not login
+
+    ],
+    
   },
-  {path:'mybookings',component:MyBookingsComponent},
-  {
-      path: "", canActivate: [], data: { expectedRoles:["Admin"] }, children: [
-      {path:'test',component:TestComponent},
-      // { path: 'Product-view/:id', component: ProductViewComponent }, // 👈 Your product detail view
-      { path: "Busroutes", component: RoutesComponent},
-      {path:"create-event", component: AddBusEventComponent},  // ✅ Add this line for AllEventsComponent
-      {path:"all-events", component: AllEventsComponent}  // ✅ Add this line for AllEventsComponent
-    ]
-  }
+
+  // Wildcard
+  { path: '**', redirectTo: 'login' }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

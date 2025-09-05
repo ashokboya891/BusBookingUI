@@ -3,50 +3,144 @@
   margin: 20px;
 }
 
-.seats-container {
-  display: grid;
-  grid-template-columns: repeat(4, 60px); /* 4 seats per row */
-  gap: 15px;
-  justify-content: center;
+.seat-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin-top: 20px;
 }
 
-.seat {
-  position: relative;
+.seat-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
-.seat input[type="checkbox"] {
-  display: none;
-}
-
-.seat label {
-  display: block;
+button {
   width: 50px;
   height: 50px;
-  line-height: 50px;
   border-radius: 8px;
-  background-color: #4caf50; /* available = green */
-  color: white;
-  font-weight: bold;
   cursor: pointer;
-  text-align: center;
+  font-weight: bold;
+  color: rgb(12, 12, 12);
+  font-size: 14px;
   transition: background 0.3s;
 }
 
-.seat label.available:hover {
-  background-color: #45a049;
-}
-
-.seat label.booked {
-  background-color: #ccc;
+button.booked {
+  background-color: #5f5c5c;
   cursor: not-allowed;
 }
 
-.seat input[type="checkbox"]:checked + label {
+button.selected {
   background-color: #2196f3; /* selected = blue */
+}
+
+button:not(.booked):hover {
+  background-color: #4caf50; /* available hover = green */
 }
 
 .selected-seats {
   margin-top: 20px;
   font-weight: bold;
+}
+
+.seat-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.seat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 50px);
+  justify-content: center;
+  gap: 10px;
+}
+
+button {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  font-weight: bold;
+  color: rgb(37, 36, 36);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button.booked {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button.selected {
+  background-color: #2196f3; /* selected = blue */
+}
+
+button:not(.booked):hover {
+  background-color: #4caf50; /* available hover = green */
+}
+
+.aisle {
+  width: 50px; /* same as button */
+  height: 50px;
+  background: transparent; /* empty space for aisle */
+}
+.bus-page {
+  padding: 20px;
+}
+
+.content {
+  display: flex;
+  gap: 20px;
+}
+
+.seat-layout {
+  flex: 2;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.event-details {
+  flex: 1;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.seat-row {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+button {
+  margin: 5px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+button.booked {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+button.selected {
+  background: #4caf50;
+  color: white;
+}
+
+.aisle {
+  width: 30px; /* space for aisle */
+}
+
+.bus-image {
+  width: 100%;
+  max-width: 220px;
+  margin: 5px 0;
+  border-radius: 8px;
 }

@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { environment } from "src/environments/environment";
 // import { BusEvent, EventBusDetails } from '../Models/BusEvent ';
 import { BusEvent,BusCategory,BusType, ApiResponse } from "src/app/Models/BusEvent ";
-import { SeatInfo } from "src/app/Models/SeatInfo";
+// import { SeatInfo } from "src/app/Models/SeatInfo";
 import { BusQueryParams } from '../Models/BusQueryParams';
+import { EventSeatMap } from '../Models/SeatInfo';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,8 +24,11 @@ export class EventService {
   addEvent(event: BusEvent): Observable<BusEvent> {
     return this.http.post<BusEvent>(`${this.apiUrl}Admin/CreateNewEvent`, event);
   }
-  getBusDataByEventId(eventId: number): Observable<any> {
-  return this.http.get(`${this.bookingurl}events/${eventId}/seats`);
+
+  
+  // Get bus layout by eventId
+  getBusDataByEventId(eventId: number): Observable<EventSeatMap> {
+    return this.http.get<EventSeatMap>(`${this.bookingurl}events/${eventId}/seats`);
   }
 
   // getBusDataByEventId(eventId: number): Observable<SeatInfo[]> {

@@ -1,26 +1,50 @@
-<div class="bus-layout">
-  <h2>Select Your Seat</h2>
+<div class="bus-page">
+  <div class="content">
+    
+    <!-- Left Column: Seat Layout -->
+    <div class="seat-layout" *ngIf="seatRows.length > 0">
+      <h2>Select Your Seat</h2>
+      <div *ngFor="let row of seatRows" class="seat-row">
+        <ng-container *ngFor="let seat of row">
+          <button *ngIf="seat"
+                  [disabled]="seat.isBooked"
+                  [ngClass]="{'booked': seat.isBooked, 'selected': isSelected(seat)}"
+                  (click)="toggleSeat(seat)">
+            {{ seat.seatNumber }}
+          </button>
+          <div *ngIf="!seat" class="aisle"></div>
+        </ng-container>
+      </div>
 
-  <div class="seats-container">
-    <div class="seat" *ngFor="let seat of SeatInfo">
-      <input 
-        type="checkbox" 
-        [id]="'seat-' + seat.seatNumber"
-        [value]="seat.seatNumber"
-        [disabled]="seat.isBooked"
-        (change)="toggleSeat(seat.seatNumber, $event)"
-      />
-      <label 
-        [for]="'seat-' + seat.seatNumber"
-        [ngClass]="{ 'booked': seat.isBooked, 'available': !seat.isBooked }"
-      >
-        {{ seat.seatNumber }}
-      </label>
+      <!-- Selected Seats -->
+      <div class="selected-seats">
+        <h3>Your Selection:</h3>
+        <span *ngFor="let s of selectedSeats">Seat {{ s.seatNumber }} &nbsp;</span>
+      </div>
     </div>
-  </div>
 
-  <div class="selected-seats">
-    <h3>Your Selection:</h3>
-    <span *ngFor="let s of selectedSeats">Seat {{ s }} &nbsp;</span>
+    <!-- Right Column: Event Info + Images -->
+    <div class="event-details" *ngIf="eventData">
+      <h2>{{ eventData.title }}</h2>
+      <p><strong>From:</strong> {{ eventData.fromPlace }}</p>
+      <p><strong>To:</strong> {{ eventData.toPlace }}</p>
+      <p><strong>Date:</strong> {{ eventData.travelDate | date:'medium' }}</p>
+      <p><strong>Price:</strong> ₹{{ eventData.price }}</p>
+      <p><strong>Total Seats:</strong> {{ eventData.totalSeats }}</p>
+      <p><strong>Description:</strong> {{ eventData.description }}</p>
+
+      <h3>Bus Images</h3>
+<div *ngIf="eventData?.images as imgs; else noImages">
+  <img *ngFor="let img of imgs"
+       [src]="img.url"
+       [alt]="eventData?.title"
+       class="bus-image" />
+</div>
+<ng-template #noImages>
+  <p>No images available.</p>
+</ng-template>
+
+    </div>
+
   </div>
 </div>

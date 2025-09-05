@@ -67,7 +67,6 @@ import { EditBusInfoComponent } from './Admin/edit-bus-info/edit-bus-info.compon
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
     MessageService
   ],
   bootstrap: [AppComponent]

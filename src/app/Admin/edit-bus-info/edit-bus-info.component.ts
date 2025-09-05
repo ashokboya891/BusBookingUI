@@ -208,7 +208,7 @@ onUpdate() {
     if (confirm('Are you sure you want to delete this event?')) {
       this.busService.deleteEvent(this.eventId).subscribe({
         next: () => {
-          this.router.navigate(['/events']);
+          this.router.navigate(['/admin/all-events']);
           this.notificationService.showSuccess("Deleted event sucessfullly");
         },
         error: () => {
@@ -221,7 +221,7 @@ onUpdate() {
   }
 
   onClose() {
-    this.router.navigate(['/all-events']);
+    this.router.navigate(['/admin/all-events']);
   }
   
 

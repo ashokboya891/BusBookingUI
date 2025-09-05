@@ -107,11 +107,11 @@ export class AllEventsComponent implements OnInit {
   }
 
   goToAddEvent() {
-    this.router.navigate(['/create-event']);
+    this.router.navigate(['/admin/create-event']);
   }
 
   editEvent(trip: BusEvent) {
-  this.router.navigate(['/editbus', trip.id]);
+  this.router.navigate(['/admin/editbus', trip.id]);
 }
   // editEvent(trip: BusEvent) {
   //   console.log(trip.id);
