@@ -21,6 +21,9 @@ export class EventService {
   getEventById(eventId: number): Observable<BusEvent> {
     return this.http.get<BusEvent>(`${this.apiUrl}Admin/GetEventById?Id=${eventId}`);
   }
+   getEventByIdForUser(eventId: number): Observable<BusEvent> {
+    return this.http.get<BusEvent>(`${this.apiUrl}User/GetEventById?Id=${eventId}`);
+  }
   addEvent(event: BusEvent): Observable<BusEvent> {
     return this.http.post<BusEvent>(`${this.apiUrl}Admin/CreateNewEvent`, event);
   }

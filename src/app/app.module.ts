@@ -26,6 +26,7 @@ import { SelectionComponent } from './Components/User/selection/selection.compon
 import { PagerComponent } from './Shared/pager/pager.component';
 import { PagingHeaderComponent } from './Shared/paging-header/paging-header.component';
 import { EditBusInfoComponent } from './Admin/edit-bus-info/edit-bus-info.component';
+import { CheckoutComponent } from './Components/User/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { EditBusInfoComponent } from './Admin/edit-bus-info/edit-bus-info.compon
     PagerComponent,
     PagingHeaderComponent,
     EditBusInfoComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,

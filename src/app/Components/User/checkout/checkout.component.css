@@ -1,0 +1,92 @@
+.checkout-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fdfdfd;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.checkout-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.checkout-header h2 {
+  margin: 0;
+  font-size: 26px;
+  color: #2196f3;
+}
+
+.card {
+  background: #fff;
+  padding: 16px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.seat-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.seat-chip {
+  background: #2196f3;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.total {
+  text-align: center;
+}
+
+.amount {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2e7d32;
+  margin-top: 10px;
+}
+
+.checkout-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.back-btn, .pay-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.back-btn {
+  background: #ccc;
+  color: #333;
+}
+
+.back-btn:hover {
+  background: #b0b0b0;
+}
+
+.pay-btn {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  color: #fff;
+  font-weight: bold;
+}
+
+.pay-btn:hover {
+  background: linear-gradient(135deg, #43a047, #1b5e20);
+}

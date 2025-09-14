@@ -1,7 +1,29 @@
 <div class="bus-page">
   <div class="content">
     
-    <!-- Left Column: Seat Layout -->
+    <!-- Left Column: Event Details + Images -->
+    <div class="event-details" *ngIf="eventData">
+      <h2>{{ eventData.title }}</h2>
+      <p><strong>From:</strong> {{ eventData.fromPlace }}</p>
+      <p><strong>To:</strong> {{ eventData.toPlace }}</p>
+      <p><strong>Date:</strong> {{ eventData.travelDate | date:'medium' }}</p>
+      <p><strong>Price:</strong> ₹{{ eventData.price }}</p>
+      <p><strong>Total Seats:</strong> {{ eventData.totalSeats }}</p>
+      <p><strong>Description:</strong> {{ eventData.description }}</p>
+
+      <h3>Bus & Trip Images</h3>
+      <div *ngIf="eventData?.images as imgs; else noImages" class="bus-images">
+        <img *ngFor="let img of imgs"
+             [src]="img.url"
+             [alt]="eventData?.title"
+             class="bus-image" />
+      </div>
+      <ng-template #noImages>
+        <p>No images available.</p>
+      </ng-template>
+    </div>
+
+    <!-- Middle Column: Seat Layout -->
     <div class="seat-layout" *ngIf="seatRows.length > 0">
       <h2>Select Your Seat</h2>
       <div *ngFor="let row of seatRows" class="seat-row">
@@ -16,35 +38,98 @@
         </ng-container>
       </div>
 
-      <!-- Selected Seats -->
       <div class="selected-seats">
-        <h3>Your Selection:</h3>
-        <span *ngFor="let s of selectedSeats">Seat {{ s.seatNumber }} &nbsp;</span>
+        <!-- <h3>Your Selection:</h3> -->
+        <!-- <span *ngFor="let s of selectedSeats">Seat {{ s.seatNumber }} &nbsp;</span> -->
       </div>
-    </div>
+      <div class="selected-seats">
+      <h3>Your Selection:</h3>
+      <span *ngFor="let s of selectedSeats">Seat {{ s.seatNumber }} &nbsp;</span>
 
-    <!-- Right Column: Event Info + Images -->
-    <div class="event-details" *ngIf="eventData">
-      <h2>{{ eventData.title }}</h2>
-      <p><strong>From:</strong> {{ eventData.fromPlace }}</p>
-      <p><strong>To:</strong> {{ eventData.toPlace }}</p>
-      <p><strong>Date:</strong> {{ eventData.travelDate | date:'medium' }}</p>
-      <p><strong>Price:</strong> ₹{{ eventData.price }}</p>
-      <p><strong>Total Seats:</strong> {{ eventData.totalSeats }}</p>
-      <p><strong>Description:</strong> {{ eventData.description }}</p>
-
-      <h3>Bus Images</h3>
-<div *ngIf="eventData?.images as imgs; else noImages">
-  <img *ngFor="let img of imgs"
-       [src]="img.url"
-       [alt]="eventData?.title"
-       class="bus-image" />
+     <p class="status" [ngClass]="{
+      'ok': selectedSeats.length === selectedTravellerIds.length,
+      'warn': selectedSeats.length !== selectedTravellerIds.length
+       }">
+      {{ selectedSeats.length }}/{{ selectedTravellerIds.length }} seats selected
+      </p>
+  <div class="go-payment" *ngIf="selectedSeats.length > 0">
+  <button class="pay-button"
+    [disabled]="selectedSeats.length !== selectedTravellerIds.length"
+    (click)="goToPayment()">
+    Go to Payments
+  </button>
 </div>
-<ng-template #noImages>
-  <p>No images available.</p>
-</ng-template>
+
+</div>
 
     </div>
 
+    <!-- Right Column: Travellers -->
+ <div class="travellers-section">
+  <h2>Your Travellers</h2>
+  <button (click)="openAddTraveller()">+ Add</button>
+
+  <table *ngIf="travellers.length > 0; else noTravellers">
+    <thead>
+      <tr>
+        <th>Select</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of travellers">
+        <td>
+          <input type="checkbox"
+                 [checked]="t.selected"
+                 (change)="toggleTravellerSelection(t)" />
+        </td>
+        <td>{{ t.name }}</td>
+        <td>{{ t.phoneNumber }}</td>
+        <td>{{ t.email }}</td>
+        <td>{{ t.age }}</td>
+        <td>
+          <button (click)="openEditTraveller(t)">Edit</button>
+          <button (click)="deleteTraveller(t.travelerId!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noTravellers>
+    <p>No travellers added yet.</p>
+  </ng-template>
+</div>
+
+
+  </div>
+</div>
+<!-- Traveller Modal -->
+<!-- Traveller Popup -->
+<div class="popup-backdrop" *ngIf="showTravellerPopup">
+  <div class="popup">
+    <h2>{{ editTravellerId ? 'Edit Traveller' : 'Add Traveller' }}</h2>
+    <form [formGroup]="travellerForm" (ngSubmit)="saveTraveller()">
+
+      <label>Name:</label>
+      <input type="text" formControlName="name" />
+
+      <label>Phone:</label>
+      <input type="text" formControlName="phoneNumber" />
+
+      <label>Email:</label>
+      <input type="email" formControlName="email" />
+
+      <label>Age:</label>
+      <input type="number" formControlName="age" />
+
+      <div class="popup-actions">
+        <button type="submit" [disabled]="travellerForm.invalid">Save</button>
+        <button type="button" (click)="closePopup()">Cancel</button>
+      </div>
+    </form>
   </div>
 </div>

@@ -10,7 +10,7 @@ import { NotificationService } from 'src/app/Services/notification.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {    
-  title="Bus Booking UI";
+  title="Bla-Bla-UI";
   greetingMessage: string = '';
   marketStatus: string = '';
   constructor(public accountService: AccountService, private router: Router,private notification:NotificationService,private authService:AuthService) { 

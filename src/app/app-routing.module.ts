@@ -15,6 +15,7 @@ import { AddBusEventComponent } from './Admin/add-bus-event/add-bus-event.compon
 import { SelectionComponent } from './Components/User/selection/selection.component';
 import { EditBusInfoComponent } from './Admin/edit-bus-info/edit-bus-info.component';
 import { AuthGuard } from './_guards/Auth.guard';
+import { CheckoutComponent } from './Components/User/checkout/checkout.component';
 
 const routes: Routes = [
   // Public
@@ -33,7 +34,7 @@ const routes: Routes = [
       { path: 'selection/:id', component: SelectionComponent },
       { path: 'upcomming', component: UpRidesComponent },
       { path: 'mybookings', component: MyBookingsComponent },
-
+      {path:"checkout",component:CheckoutComponent},
       // Moderator
       {
         path: 'moderator',

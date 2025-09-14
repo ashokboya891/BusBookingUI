@@ -1,0 +1,49 @@
+<div class="checkout-container" *ngIf="bookingData && eventData">
+  <!-- Header -->
+  <div class="checkout-header">
+    <h2>🚌 Checkout</h2>
+    <p>Review and confirm your booking</p>
+  </div>
+
+  <!-- Event Details -->
+  <div class="card">
+    <h3>🎟️ Trip Details</h3>
+    <p><strong>{{ eventData.title }}</strong></p>
+    <p>{{ eventData.fromPlace }} ➡ {{ eventData.toPlace }}</p>
+    <p>🗓 {{ eventData.travelDate | date: 'fullDate' }}</p>
+    <p>🚌 {{ eventData.busType?.name }} ({{ eventData.busCategory?.name }})</p>
+    <p>💰 Price per seat: ₹{{ eventData.price }}</p>
+  </div>
+
+  <!-- Selected Seats -->
+  <div class="card">
+    <h3>🪑 Selected Seats</h3>
+    <div class="seat-list">
+      <span *ngFor="let seat of bookingData.seats" class="seat-chip">
+        🪑 {{ seat }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Travellers -->
+  <div class="card">
+    <h3>👥 Travellers</h3>
+    <ul>
+      <li *ngFor="let traveller of selectedTravellers">
+        👤 {{ traveller.name }} ({{ traveller.age }} yrs)
+      </li>
+    </ul>
+  </div>
+
+  <!-- Total -->
+  <div class="card total">
+    <h3>💰 Total Fare</h3>
+    <p class="amount">₹{{ bookingData.totalAmount }}</p>
+  </div>
+
+  <!-- Actions -->
+  <div class="checkout-actions">
+    <button class="back-btn" (click)="goBack()">⬅ Back</button>
+    <button class="pay-btn" (click)="payNow()">💳 Pay Now</button>
+  </div>
+</div>

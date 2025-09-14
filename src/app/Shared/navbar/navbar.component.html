@@ -37,7 +37,7 @@
       <!-- Right Side: User Info -->
       <div *ngIf="isUserLoggedIn(); else guestLinks" class="d-flex align-items-center gap-3">
         <div class="text-end me-3" [routerLink]="['/mybookings']">
-          <div class="fw-semibold"><span class="text-primary">My-Rides</span></div>
+          <div class="fw-semibold"><span class="text-primary">Coupons</span></div>
         </div>
         <div class="text-end me-3">
           <div class="fw-semibold">Hi, <span class="text-primary">{{ getUserName() }}</span></div>
