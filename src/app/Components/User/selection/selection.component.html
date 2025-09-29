@@ -83,9 +83,13 @@
     <tbody>
       <tr *ngFor="let t of travellers">
         <td>
-          <input type="checkbox"
+        <input type="checkbox"
+       [(ngModel)]="t.selected"
+       (ngModelChange)="toggleTravellerSelection(t)" />
+
+          <!-- <input type="checkbox"
                  [checked]="t.selected"
-                 (change)="toggleTravellerSelection(t)" />
+                 (change)="toggleTravellerSelection(t)" /> -->
         </td>
         <td>{{ t.name }}</td>
         <td>{{ t.phoneNumber }}</td>
@@ -93,7 +97,7 @@
         <td>{{ t.age }}</td>
         <td>
           <button (click)="openEditTraveller(t)">Edit</button>
-          <button (click)="deleteTraveller(t.travelerId!)">Delete</button>
+          <button (click)="deleteTraveller(t.travellerId!)">Delete</button>
         </td>
       </tr>
     </tbody>

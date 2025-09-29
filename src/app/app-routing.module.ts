@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './Components/home/home.component';
 import { LoginComponent } from './Components/account/login/login.component';
@@ -16,6 +16,8 @@ import { SelectionComponent } from './Components/User/selection/selection.compon
 import { EditBusInfoComponent } from './Admin/edit-bus-info/edit-bus-info.component';
 import { AuthGuard } from './_guards/Auth.guard';
 import { CheckoutComponent } from './Components/User/checkout/checkout.component';
+import { StandcheckComponent } from './Components/User/standcheck/standcheck.component';
+import { PaymentoptionsComponent } from './Components/User/paymentoptions/paymentoptions.component';
 
 const routes: Routes = [
   // Public
@@ -35,6 +37,12 @@ const routes: Routes = [
       { path: 'upcomming', component: UpRidesComponent },
       { path: 'mybookings', component: MyBookingsComponent },
       {path:"checkout",component:CheckoutComponent},
+      {
+        path:"paymentoptions",component:PaymentoptionsComponent
+      },
+      {
+        path:'standcheck',component:StandcheckComponent
+      },
       // Moderator
       {
         path: 'moderator',
@@ -70,7 +78,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes),StandcheckComponent],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

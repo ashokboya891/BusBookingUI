@@ -30,6 +30,7 @@
     "primeflex": "^4.0.0",
     "primeicons": "^6.0.1",
     "primeng": "^16.9.1",
+    "razorpay": "^2.9.6",
     "rxjs": "~7.8.0",
     "spinkit": "^2.0.1",
     "tslib": "^2.3.0",

@@ -1,5 +1,5 @@
 export interface Traveller{
-      travelerId?: number;
+      travellerId?: number;
   name: string;
   phoneNumber: string;
   email: string;

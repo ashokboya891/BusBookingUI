@@ -69,7 +69,7 @@ export class SelectionComponent implements OnInit {
   }
 
   openEditTraveller(trav: Traveller) {
-    this.editTravellerId = trav.travelerId!;
+    this.editTravellerId = trav.travellerId!;
     this.travellerForm.patchValue(trav);
     this.showTravellerPopup = true;
   }
@@ -140,16 +140,31 @@ toggleSeat(seat: SeatDto) {
     return this.selectedSeats.some(s => s.seatNumber === seat.seatNumber);
   }
   toggleTravellerSelection(trav: Traveller) {
-  trav.selected = !trav.selected;
+  // No need to manually flip trav.selected
+  console.log("Clicked travellerId:", trav.travellerId, "Selected:", trav.selected);
 
-  if (trav.selected && trav.travelerId) {
-    this.selectedTravellerIds.push(trav.travelerId);
-  } else {
-    this.selectedTravellerIds = this.selectedTravellerIds.filter(id => id !== trav.travelerId);
-  }
+  this.selectedTravellerIds = this.travellers
+    .filter(t => t.selected && t.travellerId)
+    .map(t => t.travellerId!);
 
   console.log("Currently selected travellers:", this.selectedTravellerIds);
 }
+
+  // toggleTravellerSelection(trav: Traveller) {
+  // trav.selected = !trav.selected;
+  //   console.log(trav.travellerId)
+  //   // Rebuild the selectedTravellerIds array fresh
+  // this.selectedTravellerIds = this.travellers
+  //   .filter(t => t.selected && t.travellerId)  // only selected ones
+  //   .map(t => t.travellerId!);
+  // if (trav.selected && trav.travellerId) {
+  //   this.selectedTravellerIds.push(trav.travellerId);
+  // } else {
+  //   this.selectedTravellerIds = this.selectedTravellerIds.filter(id => id !== trav.travellerId);
+  // }
+
+//   console.log("Currently selected travellers:", this.selectedTravellerIds);
+// }
 
 bookTickets() {
   const bookingPayload = {

@@ -56,7 +56,7 @@ if (userId && this.bookingData?.travellerIds) {
     this.travellerService.getTravellers(userId).subscribe(travellers => {
       this.travellers = travellers;
       this.selectedTravellers = travellers.filter(t =>
-        selectedIds.includes(t.travelerId!)
+        selectedIds.includes(t.travellerId!)
       );
     });
   }
@@ -66,6 +66,23 @@ if (userId && this.bookingData?.travellerIds) {
   }
 
   payNow() {
-    alert('Redirecting to payment gateway...');
+
+  const payload = {
+    eventId: this.eventData?.id,
+    travellerIds: this.selectedTravellers.map(t => t.travellerId),
+    seatNumber: this.bookingData.seats,
+    userId: this.bookingData.userId,
+    price: this.bookingData.totalAmount,
+    provider: "",              // initially blank, user selects later
+    providerOrderId: "",
+    providerPaymentId: "",
+    providerSignature: ""
+  };
+
+
+
+    console.log('Redirecting to payment gateway...');
+    console.log("payload data sending to checkout"+payload)
+    this.router.navigate(['/paymentoptions'], { state: { bookingData: payload } });
   }
 }
