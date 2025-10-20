@@ -28,6 +28,7 @@ import { PagingHeaderComponent } from './Shared/paging-header/paging-header.comp
 import { EditBusInfoComponent } from './Admin/edit-bus-info/edit-bus-info.component';
 import { CheckoutComponent } from './Components/User/checkout/checkout.component';
 import { PaymentoptionsComponent } from './Components/User/paymentoptions/paymentoptions.component';
+import { BookingSuccessComponent } from './Components/User/booking-success/booking-success.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { PaymentoptionsComponent } from './Components/User/paymentoptions/paymen
     EditBusInfoComponent,
     CheckoutComponent,
     PaymentoptionsComponent,
+    BookingSuccessComponent,
   ],
   imports: [
     BrowserModule,

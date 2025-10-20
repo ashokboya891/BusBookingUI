@@ -9,3 +9,28 @@
     <button (click)="chooseProvider('Other')">Other</button>
   </div>
 </div>
+
+<!-- Stripe Card Popup -->
+<div class="stripe-modal" *ngIf="showStripePopup">
+  <div class="stripe-modal-content">
+    <h3>Stripe Payment</h3>
+    <div class="form-group">
+      <label>Name on card</label>
+      <input type="text" [(ngModel)]="nameOnCard" class="form-control"/>
+    </div>
+
+    <div class="form-group mt-2">
+      <div class="form-control" #cardNumber></div>
+    </div>
+
+    <div class="form-group d-flex mt-2">
+      <div class="form-control me-2" #cardExpiry></div>
+      <div class="form-control" #cardCvc></div>
+    </div>
+
+    <div class="mt-3 d-flex justify-content-end">
+      <button class="btn btn-secondary me-2" (click)="closeStripePopup()">Cancel</button>
+      <button class="btn btn-primary" (click)="confirmStripePayment()">Book Now</button>
+    </div>
+  </div>
+</div>

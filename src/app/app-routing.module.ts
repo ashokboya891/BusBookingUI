@@ -18,6 +18,7 @@ import { AuthGuard } from './_guards/Auth.guard';
 import { CheckoutComponent } from './Components/User/checkout/checkout.component';
 import { StandcheckComponent } from './Components/User/standcheck/standcheck.component';
 import { PaymentoptionsComponent } from './Components/User/paymentoptions/paymentoptions.component';
+import { BookingSuccessComponent } from './Components/User/booking-success/booking-success.component';
 
 const routes: Routes = [
   // Public
@@ -42,6 +43,9 @@ const routes: Routes = [
       },
       {
         path:'standcheck',component:StandcheckComponent
+      },
+      {
+        path:"success",component:BookingSuccessComponent
       },
       // Moderator
       {
