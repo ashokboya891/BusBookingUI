@@ -29,6 +29,7 @@ import { EditBusInfoComponent } from './Admin/edit-bus-info/edit-bus-info.compon
 import { CheckoutComponent } from './Components/User/checkout/checkout.component';
 import { PaymentoptionsComponent } from './Components/User/paymentoptions/paymentoptions.component';
 import { BookingSuccessComponent } from './Components/User/booking-success/booking-success.component';
+import { DashboardComponent } from './Components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { BookingSuccessComponent } from './Components/User/booking-success/booki
     CheckoutComponent,
     PaymentoptionsComponent,
     BookingSuccessComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

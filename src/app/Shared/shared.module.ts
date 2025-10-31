@@ -9,6 +9,11 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 // import { SpinnerComponent } from './spinner/spinner.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from "ngx-spinner";
+import {  ButtonModule} from "primeng/button";
+import { DialogModule  } from "primeng/dialog";
+import { InputTextModule } from "primeng/inputtext";
+
+
 
 @NgModule({
   declarations: [
@@ -36,7 +41,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     ToastModule,
     CardModule,
     PaginationModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    InputTextModule,DialogModule,ButtonModule
   ]
 })
 export class SharedModule {}

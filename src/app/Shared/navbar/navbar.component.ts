@@ -43,6 +43,7 @@ closeDropdowns() {
   this.showCartDropdown = false;
 }
 
+
   getUserName(): string | null {
     return sessionStorage.getItem('email');
   }

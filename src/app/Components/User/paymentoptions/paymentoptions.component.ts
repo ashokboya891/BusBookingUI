@@ -74,46 +74,87 @@ export class PaymentoptionsComponent implements OnInit {
         console.warn("Unknown provider:", provider);
     }
   }
+rPayNow() {
+  const bookingPayload = { ...this.bookingData };
 
-  rPayNow() {
-    // ✅ Already working Razorpay code unchanged
-    const bookingPayload = { ...this.bookingData };
-    this.http.post('https://localhost:7108/api/create-booking', bookingPayload)
-      .subscribe((order: any) => {
-        const options = {
-          key: 'rzp_test_QXHInQ5xIrE7dd',
-          amount: order.amount,
-          currency: 'INR',
-          name: 'Bus Booking',
-          description: 'Bus booking payment',
-          order_id: order.razorpayOrderId,
-          handler: (response: any) => {
-            const verifyPayload = {
-              orderId: order.orderId,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature
-            };
-            this.http.post('https://localhost:7108/api/payments/verify-razorpay', verifyPayload)
-              .subscribe(
-                (res: any) => {
-                  if (res.paymentStatus === 'Paid') {
-                    alert('✅ Payment verified successfully!');
-                  } else {
-                    alert('❌ Payment failed or incomplete!');
-                  }
-                },
-                (err: any) => {
-                  alert('❌ Payment verification failed!');
-                  console.error(err);
-                }
-              );
-          },
-        };
-        const rzp = new Razorpay(options);
-        rzp.open();
-      });
-  }
+  // Step 1: Create booking & get Razorpay order
+  this.http.post('https://localhost:7108/api/create-booking', bookingPayload)
+    .subscribe((order: any) => {
+
+      const options = {
+        key: 'rzp_test_QXHInQ5xIrE7dd',
+        amount: order.amount,
+        currency: 'INR',
+        name: 'Bus Booking',
+        description: 'Bus booking payment',
+        order_id: order.razorpayOrderId,
+        handler: (response: any) => {
+
+          // Step 2: Optional front-end verification for UX only
+          const verifyPayload = {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature
+          };
+
+          this.http.post('https://localhost:7108/api/payments/verify-razorpay', verifyPayload)
+            .subscribe((res: any) => {
+              if (res.valid) {
+                alert('✅ Payment signature verified (UX)');
+              this.router.navigate(['/success']);
+              } else {
+                alert('❌ Invalid payment signature');
+              }
+            }, err => {
+              console.error(err);
+            });
+        },
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    });
+}
+
+  // rPayNow() {
+  //   // ✅ Already working Razorpay code unchanged
+  //   const bookingPayload = { ...this.bookingData };
+  //   this.http.post('https://localhost:7108/api/create-booking', bookingPayload)
+  //     .subscribe((order: any) => {
+  //       const options = {
+  //         key: 'rzp_test_QXHInQ5xIrE7dd',
+  //         amount: order.amount,
+  //         currency: 'INR',
+  //         name: 'Bus Booking',
+  //         description: 'Bus booking payment',
+  //         order_id: order.razorpayOrderId,
+  //         handler: (response: any) => {
+  //           const verifyPayload = {
+  //             orderId: order.orderId,
+  //             razorpay_order_id: response.razorpay_order_id,
+  //             razorpay_payment_id: response.razorpay_payment_id,
+  //             razorpay_signature: response.razorpay_signature
+  //           };
+  //           this.http.post('https://localhost:7108/api/payments/verify-razorpay', verifyPayload)
+  //             .subscribe(
+  //               (res: any) => {
+  //                 if (res.paymentStatus === 'Paid') {
+  //                   alert('✅ Payment verified successfully!');
+  //                 } else {
+  //                   alert('❌ Payment failed or incomplete!');
+  //                 }
+  //               },
+  //               (err: any) => {
+  //                 alert('❌ Payment verification failed!');
+  //                 console.error(err);
+  //               }
+  //             );
+  //         },
+  //       };
+  //       const rzp = new Razorpay(options);
+  //       rzp.open();
+  //     });
+  // }
 
   async sPayNow() {
     // 1️⃣ Create booking on backend with Stripe provider

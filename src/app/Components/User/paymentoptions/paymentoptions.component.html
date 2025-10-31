@@ -1,5 +1,4 @@
-<!-- payment-options.component.html -->
-<div class="payment-options">
+<!-- <div class="payment-options">
   <h2>💳 Choose Payment Method</h2>
 
   <div class="options">
@@ -10,7 +9,6 @@
   </div>
 </div>
 
-<!-- Stripe Card Popup -->
 <div class="stripe-modal" *ngIf="showStripePopup">
   <div class="stripe-modal-content">
     <h3>Stripe Payment</h3>
@@ -33,4 +31,47 @@
       <button class="btn btn-primary" (click)="confirmStripePayment()">Book Now</button>
     </div>
   </div>
+</div> -->
+
+<!-- payment-options.component.html -->
+<div class="p-4 card shadow-sm border-0 mx-auto" style="max-width: 500px;">
+  <h2 class="text-center mb-4">💳 Choose Payment Method</h2>
+
+  <div class="d-grid gap-2">
+    <button pButton type="button" label="Razorpay" class="p-button-raised p-button-info" (click)="chooseProvider('Razorpay')"></button>
+    <button pButton type="button" label="Stripe" class="p-button-raised p-button-primary" (click)="chooseProvider('Stripe')"></button>
+    <button pButton type="button" label="Wallet" class="p-button-raised p-button-success" (click)="chooseProvider('Wallet')"></button>
+    <button pButton type="button" label="Other" class="p-button-raised p-button-secondary" (click)="chooseProvider('Other')"></button>
+  </div>
 </div>
+
+<!-- Stripe Card Modal -->
+<!-- <p-dialog header="Stripe Payment" [(visible)]="showStripePopup" modal="true" [closable]="false" [style]="{width: '400px'}"> -->
+  <p-dialog 
+    header="Stripe Payment" 
+    [(visible)]="showStripePopup" 
+    [modal]="true" 
+    [closable]="false" 
+    [style]="{width: '400px'}">
+<div class="p-fluid">
+    <div class="p-field">
+      <label for="name">Name on Card</label>
+      <input id="name" type="text" pInputText [(ngModel)]="nameOnCard" />
+    </div>
+
+    <div class="p-field mt-2">
+      <label>Card Number</label>
+      <div class="form-control" #cardNumber></div>
+    </div>
+
+    <div class="p-field mt-2 d-flex gap-2">
+      <div class="form-control flex-fill" #cardExpiry></div>
+      <div class="form-control flex-fill" #cardCvc></div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3 gap-2">
+      <button pButton type="button" label="Cancel" class="p-button-secondary" (click)="closeStripePopup()"></button>
+      <button pButton type="button" label="Book Now" class="p-button-primary" (click)="confirmStripePayment()"></button>
+    </div>
+  </div>
+</p-dialog>

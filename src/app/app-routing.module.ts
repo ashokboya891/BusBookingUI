@@ -19,6 +19,7 @@ import { CheckoutComponent } from './Components/User/checkout/checkout.component
 import { StandcheckComponent } from './Components/User/standcheck/standcheck.component';
 import { PaymentoptionsComponent } from './Components/User/paymentoptions/paymentoptions.component';
 import { BookingSuccessComponent } from './Components/User/booking-success/booking-success.component';
+import { DashboardComponent } from './Components/dashboard/dashboard.component';
 
 const routes: Routes = [
   // Public
@@ -38,6 +39,9 @@ const routes: Routes = [
       { path: 'upcomming', component: UpRidesComponent },
       { path: 'mybookings', component: MyBookingsComponent },
       {path:"checkout",component:CheckoutComponent},
+      {
+        path:'dashboard',component:DashboardComponent
+      },
       {
         path:"paymentoptions",component:PaymentoptionsComponent
       },

@@ -1,0 +1,228 @@
+<div class="dashboard">
+  <h2 class="title">🚌 Travel Dashboard</h2>
+
+  <!-- Summary cards -->
+  <div class="stats-grid">
+    <div class="stat-card upcoming" (click)="toggleSection('upcoming')">
+      <div class="icon">🕒</div>
+      <div class="details">
+        <h3>{{ upcoming.length }}</h3>
+        <p>Upcoming</p>
+      </div>
+    </div>
+
+    <div class="stat-card confirmed" (click)="toggleSection('confirmed')">
+      <div class="icon">✅</div>
+      <div class="details">
+        <h3>{{ confirmed.length }}</h3>
+        <p>Confirmed</p>
+      </div>
+    </div>
+
+    <div class="stat-card completed" (click)="toggleSection('completed')">
+      <div class="icon">🏁</div>
+      <div class="details">
+        <h3>{{ completed.length }}</h3>
+        <p>Completed</p>
+      </div>
+    </div>
+
+    <div class="stat-card cancelled" (click)="toggleSection('cancelled')">
+      <div class="icon">❌</div>
+      <div class="details">
+        <h3>{{ cancelled.length }}</h3>
+        <p>Cancelled</p>
+      </div>
+    </div>
+
+    <div class="stat-card failed" (click)="toggleSection('failed')">
+      <div class="icon">⚠️</div>
+      <div class="details">
+        <h3>{{ failed.length }}</h3>
+        <p>Failed</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Split Layout -->
+  <div class="dashboard-content" [class.split]="selectedTravel">
+
+    <!-- LEFT SIDE -->
+    <div class="accordion scrollable">
+      <!-- Upcoming Section -->
+      <div
+        class="accordion-section"
+        *ngIf="activeSection === 'upcoming'"
+        [@slideToggle]>
+        <h3>🕒 Upcoming Travels</h3>
+        <div
+          class="travel-card"
+          *ngFor="let item of upcoming"
+          (click)="selectTravel(item)">
+          <div class="travel-info">
+            <h4>{{ item.event?.title }}</h4>
+            <p>{{ item.event?.travelDate | date:'mediumDate' }}</p>
+          </div>
+          <div class="price">₹{{ item.payment?.amount }}</div>
+        </div>
+      </div>
+
+      <!-- Confirmed Section -->
+      <div
+        class="accordion-section"
+        *ngIf="activeSection === 'confirmed'"
+        [@slideToggle]>
+        <h3>✅ Confirmed Travels</h3>
+        <div
+          class="travel-card confirmed"
+          *ngFor="let item of confirmed"
+          (click)="selectTravel(item)">
+          <div class="travel-info">
+            <h4>{{ item.event?.title }}</h4>
+            <p>{{ item.event?.travelDate | date:'mediumDate' }}</p>
+          </div>
+          <div class="price">₹{{ item.payment?.amount }}</div>
+        </div>
+      </div>
+
+      <!-- Completed Section -->
+      <div
+        class="accordion-section"
+        *ngIf="activeSection === 'completed'"
+        [@slideToggle]>
+        <h3>🏁 Completed Travels</h3>
+        <div
+          class="travel-card completed"
+          *ngFor="let item of completed"
+          (click)="selectTravel(item)">
+          <div class="travel-info">
+            <h4>{{ item.event?.title }}</h4>
+            <p>{{ item.event?.travelDate | date:'mediumDate' }}</p>
+          </div>
+          <div class="price">₹{{ item.payment?.amount }}</div>
+        </div>
+      </div>
+
+      <!-- Cancelled Section -->
+      <div
+        class="accordion-section"
+        *ngIf="activeSection === 'cancelled'"
+        [@slideToggle]>
+        <h3>❌ Cancelled Travels</h3>
+        <div
+          class="travel-card cancelled"
+          *ngFor="let item of cancelled"
+          (click)="selectTravel(item)">
+          <div class="travel-info">
+            <h4>{{ item.event?.title }}</h4>
+            <p>{{ item.event?.travelDate | date:'mediumDate' }}</p>
+          </div>
+          <div class="price">₹{{ item.payment?.amount }}</div>
+        </div>
+      </div>
+
+      <!-- Failed Section -->
+      <div
+        class="accordion-section"
+        *ngIf="activeSection === 'failed'"
+        [@slideToggle]>
+        <h3>⚠️ Failed Payments</h3>
+        <div
+          class="travel-card failed"
+          *ngFor="let item of failed"
+          (click)="selectTravel(item)">
+          <div class="travel-info">
+            <h4>{{ item.event?.title }}</h4>
+            <p>{{ item.event?.travelDate | date:'mediumDate' }}</p>
+          </div>
+          <div class="price">₹{{ item.payment?.amount }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE (Detail Panel) -->
+    <div class="detail-panel" *ngIf="selectedTravel" [@slideToggle]>
+      <div class="detail-card">
+        <h3>🧾 Travel Details</h3>
+
+        <div class="detail-row">
+          <p><strong>Event:</strong> {{ selectedTravel.event?.title }}</p>
+          <p><strong>Date:</strong> {{ selectedTravel.event?.travelDate | date:'fullDate' }}</p>
+          <p><strong>Date:</strong> {{ selectedTravel.payment?.provider}}</p>
+
+        </div>
+
+        <div class="detail-row">
+          <p><strong>Booking ID:</strong>
+            {{
+             selectedTravel.payment?.providerPaymentId
+            ? selectedTravel.payment?.providerPaymentId
+           : selectedTravel.payment?.providerOrderId
+           }}
+        </p>
+          <p><strong>Status:</strong> {{ selectedTravel.payment?.status || 'N/A' }}</p>
+        </div>
+
+        <div class="detail-row">
+          <p><strong>Traveler:</strong> {{ selectedTravel.traveller?.name || 'Guest User' }}</p>
+          <p><strong>Contact:</strong> {{ selectedTravel.traveller?.email || 'N/A' }} Age -{{selectedTravel.traveller?.age}}</p>
+        </div>
+
+        <div class="detail-row">
+          <p><strong>Amount:</strong> ₹{{ selectedTravel.payment?.amount }}</p>
+          <p><strong>Method:</strong> {{ selectedTravel.payment?.method || 'UPI/Card' }}</p>
+        </div>
+        <div class="detail-row">
+          <p><strong>Booking Date:</strong> {{ selectedTravel.booking?.bookingDate | date:'fullDate' }}</p>
+          <p><strong>Seat No:</strong> {{ selectedTravel.booking?.seatNumber  }}</p>
+        </div>
+
+        <div class="button-group">
+          <button class="close-btn" (click)="closeDetail()">Close</button>
+          <button class="action-btn" (click)="openActionModal(selectedTravel)">
+            Take Action
+          </button>
+
+          <button 
+            class="action-btn"
+            *ngIf="['upcoming', 'confirmed'].includes(activeSection || '')"
+                (click)="downloadTicket(selectedTravel)">
+                 🎫 Download Ticket
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ACTION MODAL -->
+<div class="action-modal" *ngIf="showActionModal">
+  <div class="modal-content">
+    <h3>🚍 Manage Booking</h3>
+
+    <div class="detail-block">
+      <p><strong>Event:</strong> {{ selectedTravel?.event?.title }}</p>
+      <p><strong>From:</strong> {{ selectedTravel?.event?.fromPlace }} → {{ selectedTravel?.event?.toPlace }}</p>
+      <p><strong>Date:</strong> {{ selectedTravel?.event?.travelDate | date:'fullDate' }}</p>
+      <p><strong>Seat:</strong> {{ selectedTravel?.booking?.seatNumber }}</p>
+      <p><strong>Amount:</strong> ₹{{ selectedTravel?.payment?.amount }}</p>
+      <p><strong>Status:</strong> {{ selectedTravel?.booking?.status }}</p>
+    </div>
+
+    <div class="info-note">
+      <p>🕒 You can cancel your ticket up to <strong>3 hours before departure</strong>.</p>
+      <p>📞 For emergencies, contact customer support.</p>
+      <p>⚠️ Refunds will be processed automatically after cancellation.</p>
+    </div>
+
+    <div class="button-row">
+      <button class="close-btn" (click)="closeActionModal()">Close</button>
+      <button 
+        class="cancel-btn"
+        [disabled]="!canCancel(selectedTravel)"
+        (click)="cancelBooking(selectedTravel)">
+        ❌ Cancel Booking
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>

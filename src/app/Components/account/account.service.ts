@@ -84,10 +84,13 @@ public currentUserName: string | null = null;
     })
   );
 }
+  refreshToken(token:string,refreshtoken:string)
+  {
 
+  }
   register(values:any)
   {
-    return this.http.post<User>(this.baseUrl+'Register',values).pipe(
+    return this.http.post<User>(this.baseUrl+'Account/Register',values).pipe(
       map(user =>{
         sessionStorage.setItem('token',user.token);
         this.currentUserSource.next(user);
@@ -142,7 +145,7 @@ logout() {
     const token = sessionStorage.getItem("token");
     const refreshToken = sessionStorage.getItem("refreshToken");
 
-    return this.http.post<any>(`${this.baseUrl}generate-new-jwt-token`, { token, refreshToken }).pipe(
+    return this.http.post<any>(`${this.baseUrl}Account/generate-new-jwt-token`, { token, refreshToken }).pipe(
       tap((response: { token: string; }) => {
         if (response.token) {
           localStorage.setItem("token", response.token);
@@ -150,4 +153,5 @@ logout() {
       })
     );
 }
+
 }
