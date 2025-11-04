@@ -83,9 +83,17 @@ export class BookingService {
 //   );
 // }
 
-cancelBooking(bookingId: number, paymentId: number, eventId: number, token: string) {
+cancelBooking(bookingId: number, paymentId: number, eventId: number, token: string,provider:string) {
   const headers = { Authorization: `Bearer ${token}` };
 
+  if(provider=="Stripe")
+  {
+      return this.http.post(
+    `${this.bookingapiUrl}Cancel`,
+    { bookingId, paymentId, eventId }, // body payload
+    { headers, responseType: 'json' }
+    );
+  }
   // ✅ Correct query string + JSON body
   return this.http.put(
     `${this.bookingapiUrl}CancelBooking?bookingId=${bookingId}`,

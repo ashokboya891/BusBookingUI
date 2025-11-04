@@ -230,7 +230,8 @@ cancelBooking(travel: any) {
 
   const bookingId = travel.booking?.bookingId;
   const paymentId = travel.payment?.paymentId;  // ✅ Fix: comes from travel.payment, not travel.booking
-  const eventId = travel.event?.id;             // ✅ Fix: comes from travel.event, not travel.booking
+  const eventId = travel.event?.id;  
+  const provider= travel.payment?.provider;          // ✅ Fix: comes from travel.event, not travel.booking
 
   if (!bookingId || !paymentId || !eventId) {
     console.log(bookingId+" "+eventId+" "+paymentId)
@@ -238,7 +239,7 @@ cancelBooking(travel: any) {
     return;
   }
 
-  this.bookingService.cancelBooking(bookingId, paymentId, eventId, token).subscribe({
+  this.bookingService.cancelBooking(bookingId, paymentId, eventId, token,provider).subscribe({
     next: (res: any) => {
       alert(res.message || 'Booking cancelled successfully!');
       this.showActionModal = false;
